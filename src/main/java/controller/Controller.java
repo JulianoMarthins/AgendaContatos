@@ -5,6 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
+
+
 import model.JavaBeans;
 import model.DAO;
 
@@ -40,11 +44,20 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	// Lista de contatos
+	// Listar contatos
 	protected void contatos(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.sendRedirect("agenda.jsp");
+		// Cria objeto que irá receber os dados do JavaBeans
+		ArrayList<JavaBeans> lista = dao.listarContatos();
+		
+		for(int i = 0; i < lista.size(); i++) {
+			System.out.println(lista.get(i).getIdCliente());
+			System.out.println(lista.get(i).getNome());
+			System.out.println(lista.get(i).getFone());
+			System.out.println(lista.get(i).getCpf());
+			System.out.println(lista.get(i).getRg());
+		}
+		
 	}
 	
 	// Inserir novo contato.

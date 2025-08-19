@@ -3,6 +3,9 @@ package model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import java.util.ArrayList;
 
 public class DAO {
 	// Módulo de Conexão
@@ -27,29 +30,58 @@ public class DAO {
 			return null;
 		}
 	}
-	
-	
-	// CRUD CREATE
+
+	// CRUD Inserir contato ao banco de dados
 	public void inserirContato(JavaBeans contato) {
-		String create = "insert into contatos(nome, fone, cpf, rg)"
-				+ "values(?, ?, ?, ?)";
+		String create = "insert into contatos(nome, fone, cpf, rg)" + "values(?, ?, ?, ?)";
 		try {
-			
+
 			Connection con = conectar();
-			
+
 			PreparedStatement pst = con.prepareStatement(create);
-			
+
 			pst.setString(1, contato.getNome());
 			pst.setString(2, contato.getFone());
 			pst.setString(3, contato.getCpf());
 			pst.setString(4, contato.getRg());
-					
+
 			pst.executeUpdate();
-			
+
 			con.close();
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
+		}
+	}
+
+	// CRUD Listar os contatos por nome
+	public ArrayList<JavaBeans> listarContatos() {
+
+		ArrayList<JavaBeans> contatos = new ArrayList<>();
+
+		String read = "select * from contatos order by nome";
+
+		try {
+			Connection con = conectar();
+			PreparedStatement pst = con.prepareStatement(read);
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				String idcon = rs.getString(1);
+				String nome = rs.getString(2);
+				String fone = rs.getString(3);
+				String cpf = rs.getString(4);
+				String rg = rs.getString(5);
+
+				contatos.add(new JavaBeans(idcon, nome, fone, cpf, rg));
+			}
+
+			con.close();
+			return contatos;
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
 		}
 	}
 
