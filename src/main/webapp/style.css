@@ -20,4 +20,16 @@ h1{
 	font-size: 1.2em;
 	font-weight: 700;
 	border-radius: 10px;
+	border: 0;
+	cursor: pointer;
 }
+
+.Caixa1 {
+	width: 320px;
+	padding: 5px;
+	margin-bottom: 10px;
+	border: 1px solid #2969BE;
+	border-radius: 10px;	
+}
+
+
