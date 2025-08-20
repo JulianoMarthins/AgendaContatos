@@ -52,8 +52,8 @@ public class Controller extends HttpServlet {
 		ArrayList<JavaBeans> lista = dao.listarContatos();
 
 		request.setAttribute("contatos", lista);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("agenda.jsp");
-
 		rd.forward(request, response);
 	}
 
@@ -81,9 +81,15 @@ public class Controller extends HttpServlet {
 		
 		dao.selecionarContato(contato);
 		
-		testes();
+		request.setAttribute("idCliente", contato.getIdCliente());
+		request.setAttribute("nome", contato.getNome());
+		request.setAttribute("fone", contato.getFone());
+		request.setAttribute("cpf", contato.getCpf());
+		request.setAttribute("rg", contato.getRg());
 		
-		
+		RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
+		rd.forward(request, response);
+				
 	}
 	
 	// Exclusão de contatos
