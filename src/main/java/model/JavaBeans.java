@@ -4,9 +4,10 @@ public class JavaBeans {
 
 	private String idCliente;
 	private String nome;
+	private String fone;
 	private String cpf;
 	private String rg;
-	private String fone;
+	
 
 	// Constructions
 	public JavaBeans() {

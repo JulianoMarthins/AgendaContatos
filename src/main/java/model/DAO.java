@@ -72,8 +72,9 @@ public class DAO {
 				String fone = rs.getString(3);
 				String cpf = rs.getString(4);
 				String rg = rs.getString(5);
-
-				contatos.add(new JavaBeans(idcon, nome, fone, cpf, rg));
+			
+				
+				contatos.add(new JavaBeans(idcon, nome, cpf, rg, fone));
 			}
 
 			con.close();
@@ -84,30 +85,53 @@ public class DAO {
 			return null;
 		}
 	}
-	
+
 	// CRUD - Atualizar contato
 	public void selecionarContato(JavaBeans contato) {
 		String read2 = "select * from contatos where idCliente = ?";
-		
+
 		try {
-			
+
 			Connection con = conectar();
 			PreparedStatement pst = con.prepareStatement(read2);
-			
+
 			pst.setString(1, contato.getIdCliente());
-			
+
 			ResultSet rs = pst.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				contato.setIdCliente(rs.getString(1));
 				contato.setNome(rs.getString(2));
 				contato.setFone(rs.getString(3));
 				contato.setCpf(rs.getString(4));
 				contato.setRg(rs.getString(5));
 			}
-						
+
 			con.close();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	public void alterarContato(JavaBeans contato) {
+		String create = "update contatos set nome=?, fone=?, cpf=?, rg=? where idCliente=?";
+
+		try {
+
+			Connection con = conectar();
+			PreparedStatement pst = con.prepareStatement(create);
+
+			pst.setString(1, contato.getNome());
+			pst.setString(2, contato.getFone());
+			pst.setString(3, contato.getCpf());
+			pst.setString(4, contato.getRg());
+			pst.setString(5, contato.getIdCliente());
 			
+			pst.executeUpdate();
+			
+			con.close();
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
