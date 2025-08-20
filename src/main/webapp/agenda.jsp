@@ -31,6 +31,7 @@
 				<th>Telefone</th>
 				<th>CPF</th>
 				<th>RG</th>
+				<th>Opções</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,6 +45,11 @@
 				<td><%=contatos.get(i).getFone()%></td>
 				<td><%=contatos.get(i).getCpf()%></td>
 				<td><%=contatos.get(i).getRg()%></td>
+				<td><a href="select?idCliente=<%=contatos.get(i).getIdCliente()%>" class="Botao1">
+				Editar</a>
+					<a href="excluir?idCliente=<%=contatos.get(i).getIdCliente()%>" class="Botao1">
+					Excluir</a>
+				</td>
 			</tr>
 			<%
 			}

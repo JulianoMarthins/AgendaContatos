@@ -7,24 +7,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
 
-
 import java.util.ArrayList;
-
 
 import model.JavaBeans;
 import model.DAO;
 
-
 import java.io.IOException;
 
-
-@WebServlet(urlPatterns = { "/Controller", "/main", "/insert" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/excluir" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	JavaBeans contato = new JavaBeans();
 	DAO dao = new DAO();
-	
 
 	public Controller() {
 		super();
@@ -37,10 +32,14 @@ public class Controller extends HttpServlet {
 		String action = request.getServletPath();
 		if (action.equals("/main")) {
 			contatos(request, response);
-		}
-		else if (action.equals("/insert")) {
+		} else if (action.equals("/insert")) {
 			novoContato(request, response);
+		} else if (action.equals("/select")) {
+			listarContato(request, response);
+		} else if(action.equals("/excluir")) {
+			excluirContato(request, response);
 		}
+			
 		else {
 			response.sendRedirect("index.html");
 		}
@@ -49,31 +48,62 @@ public class Controller extends HttpServlet {
 	// Listar contatos
 	protected void contatos(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Cria objeto que irá receber os dados do JavaBeans
+
 		ArrayList<JavaBeans> lista = dao.listarContatos();
-		
+
 		request.setAttribute("contatos", lista);
 		RequestDispatcher rd = request.getRequestDispatcher("agenda.jsp");
-		
+
 		rd.forward(request, response);
-		
 	}
-	
-	// Inserir novo contato.
-	protected void novoContato(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {		
-		
-		// Criando objeto com os dados do usuário
-		contato.setNome(request.getParameter("nome"));			
+
+	// Inserir novo contato ao banco de dados.
+	protected void novoContato(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		contato.setNome(request.getParameter("nome"));
 		contato.setFone(request.getParameter("fone"));
 		contato.setCpf(request.getParameter("cpf"));
 		contato.setRg(request.getParameter("rg"));
-		
-		// Insere o objeto a classe DAO
+
 		dao.inserirContato(contato);
-		
+
 		response.sendRedirect("main");
+
+	}
+	
+	// Edição de contatos
+	protected void listarContato(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		String idContato = request.getParameter("idCliente");
+		contato.setIdCliente(idContato);
+		
+		dao.selecionarContato(contato);
+		
+		testes();
+		
 		
 	}
+	
+	// Exclusão de contatos
+	protected void excluirContato(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		String idContato = request.getParameter("idCliente");
+		System.out.println("botão de exclusão.");
+		System.out.println(idContato);
+	}
+	
+	
+	public void testes() {
+		System.out.println("ID: " + contato.getIdCliente());
+		System.out.println("Nome: " + contato.getNome());
+		System.out.println("Telefone: " + contato.getFone());
+		System.out.println("CPF: " + contato.getCpf());
+		System.out.println("RG: " + contato.getRg());
+	}
+	
+	
 
 }
