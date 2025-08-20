@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
+
 
 import java.util.ArrayList;
 
@@ -50,13 +52,10 @@ public class Controller extends HttpServlet {
 		// Cria objeto que irá receber os dados do JavaBeans
 		ArrayList<JavaBeans> lista = dao.listarContatos();
 		
-		for(int i = 0; i < lista.size(); i++) {
-			System.out.println(lista.get(i).getIdCliente());
-			System.out.println(lista.get(i).getNome());
-			System.out.println(lista.get(i).getFone());
-			System.out.println(lista.get(i).getCpf());
-			System.out.println(lista.get(i).getRg());
-		}
+		request.setAttribute("contatos", lista);
+		RequestDispatcher rd = request.getRequestDispatcher("agenda.jsp");
+		
+		rd.forward(request, response);
 		
 	}
 	
