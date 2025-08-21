@@ -23,7 +23,7 @@ function validar() {
 		frmContato.fone.focus();
 		return false;
 	}
-	else if (fone.length > 16) {
+	else if (fone.length > 15) {
 		alert("Número de telefone inválido");
 		frmContato.fone.focus();
 		return false;

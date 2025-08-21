@@ -136,5 +136,24 @@ public class DAO {
 			System.out.println(e);
 		}
 	}
+	
+	// CRUD Delete
+	public void excluirContato(JavaBeans contato) {
+		
+		String delete = "delete from contatos where idCliente=?";
+		
+		try {
+			
+			Connection con = conectar();
+			PreparedStatement pst = con.prepareStatement(delete);
+			
+			pst.setString(1, contato.getIdCliente());			
+			pst.executeUpdate();			
+			
+			con.close();
+		} catch (Exception e) {
+			System.out.println(2);
+		}
+	}
 
 }

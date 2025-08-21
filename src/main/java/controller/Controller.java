@@ -14,7 +14,7 @@ import model.DAO;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/excluir", "/update" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update",  "/excluir",})
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -98,6 +98,7 @@ public class Controller extends HttpServlet {
 	// Editar o contato
 	protected void editarContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		contato.setIdCliente(request.getParameter("idCliente"));
 		contato.setNome(request.getParameter("nome"));
 		contato.setFone(request.getParameter("fone"));
@@ -113,9 +114,13 @@ public class Controller extends HttpServlet {
 	protected void excluirContato(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String idContato = request.getParameter("idCliente");
-		System.out.println("botão de exclusão.");
-		System.out.println(idContato);
+		String idCon = request.getParameter("idCliente");
+				
+		contato.setIdCliente(idCon);
+		
+		dao.excluirContato(contato);
+		
+		response.sendRedirect("main");
 	}
 
 	public void teste() {
